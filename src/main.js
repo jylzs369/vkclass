@@ -2,13 +2,11 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import Axios from 'axios'
-import Mock from 'mockjs'
 import App from './App'
 import router from './router'
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = Axios
-Vue.prototype.$mock = Mock
 
 /* eslint-disable no-new */
 new Vue({

@@ -1,14 +1,22 @@
 <template>
   <div>
-      <header-bar :title="title"></header-bar>
+      <header-bar :title="header.title"></header-bar>
       <section>
-        <router-link tag="div" class="block" to="/course">
-          <h3>必学课程</h3>
-        </router-link>
+        <div v-for="item in processing">
+          <router-link tag="div" :to="{ name: 'point', params: { employeeId: item.id}}" class="flex">
+            <div><img :src="item.banner" alt=""></div>
+            <h3>{{ item.title }}</h3>
+          </router-link>
+        </div>
       </section>
       <section>已完成</section>
       <section>
-          <img :src="finishedLessons[0].banner" alt="">
+        <div v-for="item in finished">
+          <router-link tag="div" :to="{ name: 'point', params: { employeeId: item.id}}" class="flex">
+            <div><img :src="item.banner" alt=""></div>
+            <h3>{{ item.title }}</h3>
+          </router-link>
+        </div>
       </section>
   </div>
 </template>
@@ -18,7 +26,9 @@ import headerBar from './partials/header'
 export default {
   data () {
     return {
-      title: '必学课程',
+      header: {
+        title: '必学课程'
+      },
       processing: [],
       finished: []
     }
@@ -27,28 +37,13 @@ export default {
     headerBar
   },
   created () {
-    var Random = this.$mock.Random
-    var data = this.$mock.mock({
-      'validLessons|2': [
-        {
-          'id|+1': 0,
-          'title': '@sentence(5)',
-          'banner': Random.image('375x60')
-        }
-      ],
-      'finishedLessons|5': [
-        {
-          'id|+1': 0,
-          'title': '@sentence(5)',
-          'banner': Random.image('375x60')
-        }
-      ]
-    })
-    console.log(data)
-    this.$axios('/course').then(function (response) {
-      let result = response.data
+    this.$axios.get('/course').then(res => {
+      let result = res.data
+      console.log(result)
       this.processing = result.processing
       this.finished = result.finished
+      console.log(this.processing)
+      console.log(this.finished)
     })
   }
 }

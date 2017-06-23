@@ -20,10 +20,10 @@
     --font-size-larger: 18px;
 
     /* padding */
-    --padding-base-vertical: --font-size-base * 0.3;
-    --padding-base-horizontal: --font-size-base * 0.5;
-    --padding-small-vertical: --font-size-small * 0.25;
-    --padding-small-horizontal: --font-size-base * 0.5;
-    --padding-large-vertical: --font-size-large * 0.5;
-    --padding-large-horizontal: --font-size-large * 0.5;
+    --padding-base-vertical: calc(0.3 * var(--font-size-larger));
+    --padding-base-horizontal: calc(0.5 * var(--font-size-larger));
+    --padding-small-vertical: calc(0.25 * var(--font-size-base));
+    --padding-small-horizontal: calc(0.5 * var(--font-size-base));
+    --padding-large-vertical: calc(0.5 * 24);
+    --padding-large-horizontal: calc(0.5 * 30px);
 }
