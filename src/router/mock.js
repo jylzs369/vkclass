@@ -4,8 +4,8 @@ const Random = Mock.Random
 module.exports = function (app) {
   app.get('/home', function (req, res, next) {
     let data = Mock.mock({
-      'studied|1-10': 1,
-      'total|1-10': 1,
+      'points|1-10': 1,
+      'days|1-100': 1,
       'ranking|1-99.1-2': 1,
       'course|1-10': 1,
       'exam|1-10': 1
