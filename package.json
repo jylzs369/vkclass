@@ -18,7 +18,6 @@
     "babel-runtime": "^6.23.0",
     "vue": "^2.3.3",
     "vue-router": "^2.3.1",
-    // heroku
     "autoprefixer": "^6.7.2",
     "babel-core": "^6.22.1",
     "babel-eslint": "^7.1.1",
