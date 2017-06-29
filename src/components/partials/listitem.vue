@@ -13,7 +13,6 @@ export default {
       default: ''
     },
     subTitle: {
-      type: String,
       default: ''
     }
   }

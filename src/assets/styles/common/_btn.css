@@ -1,0 +1,26 @@
+.btn {
+    display: inline-block;
+    width: 100%;
+    color: var(--white);
+    font-size: 90%;
+    line-height: 1;
+    padding: .5em 0;
+    outline: 0;
+    border: 0;
+}
+.btn.success {
+    background: var(--success);
+}
+.btn.warning {
+    background: var(--warning);
+}
+.btn.danger {
+    background: var(--danger);
+}
+.btn.info {
+    background: var(--info);
+}
+.btn.disabled {
+    background: var(--disabled);
+    cursor: not-allowed;
+}

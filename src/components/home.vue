@@ -47,7 +47,7 @@ export default {
   },
   created () {
     this.$axios.get('/home').then(res => {
-      this.summary = res.data
+      this.summary = res.data.summary
     })
   }
 }

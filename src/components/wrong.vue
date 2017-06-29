@@ -7,7 +7,10 @@
         </div>
         <ul class="list">
           <li v-for="(item, index) in options">
-            <input type="radio" :id="'question-'+ index" :value="item" v-model="selected" name="question">
+            <i v-if="question.correct === item" class="icon correct"></i>
+            <i v-else-if="question.answer === item" class="icon wrong">&times;</i>
+            <i v-else class="icon"></i>
+            <input type="radio" :id="'question-'+ index" :value="item" disabled name="question">
             <label :for="'question-' + index">{{ item }}</label>
           </li>
         </ul>
@@ -37,8 +40,7 @@ export default {
         total: 1,
         current: 1
       },
-      questions: [],
-      selected: ''
+      questions: []
     }
   },
   components: {
@@ -55,6 +57,11 @@ export default {
       if (this.questions.length > 0) {
         return this.questions[this.pagination.current - 1].options
       }
+    },
+    question () {
+      if (this.questions.length > 0) {
+        return this.questions[this.pagination.current - 1]
+      }
     }
   },
   watch: {
@@ -63,49 +70,23 @@ export default {
         this.pagination.prev.disabled = false
         this.pagination.next.text = '下一题'
       }
-    },
-    'selected' (value) {
-      this.questions[this.pagination.current - 1].selected = value
     }
   },
   created () {
+    let employeeId = 10000
     this.params = this.$route.params
-    this.from = this.params.from
-    this.apiUrl = '/' + this.from + '/test'
-    if (this.from === 'point') {
-      this.header.title = '知识点验收'
-    }
-    if (this.from === 'exam') {
-      this.header.title = '每月必考'
-    }
-    // let courseId = this.$route.params.id
+    this.header.title = this.params.title
+    // let examId = this.params.id
     // this.$axios.get(this.apiUrl + '/' + courseId).then(res => {
-    this.$axios.get(this.apiUrl, {params: {id: this.params.id}}).then(res => {
+    this.$axios.get('/exam/wrong', {params: {id: this.params.id, employeeId: employeeId}}).then(res => {
       this.questions = res.data.questions
       this.pagination.total = this.questions.length
     })
   },
   methods: {
     back () {
-      delete this.params.from
       this.$router.push({
-        name: this.from,
-        params: this.params
-      })
-    },
-    submit (params) {
-      this.$axios.post(this.apiUrl, {params: params}).catch(error => {
-        this.$toast(error)
-      })
-    },
-    result () {
-      if (this.pass) {
-        this.params = Object.assign(this.params, {pass: this.pass})
-      }
-      this.params = Object.assign(this.params, {questions: this.questions})
-      this.$router.push({
-        name: 'result',
-        params: this.params
+        name: 'exam'
       })
     },
     prev () {
@@ -118,44 +99,16 @@ export default {
       }
     },
     next () {
-      // 判断是否选择答案
-      if (this.selected.length <= 0) {
-        this.$toast('请选择答案')
-        return
-      }
-      // 如果到最后一题，提交测试
-      if (this.pagination.next.text === '提交测试' || this.pagination.next.text === '交卷') {
-        if (this.params.state) {
-          let params = {
-            id: this.params.id
-          }
-          if (this.from === 'point') {
-            params.corrects = []
-            this.questions.forEach(function (item, index, arr) {
-              if (item.selected === item.correct) {
-                params.corrects.push(item.id)
-              }
-            })
-          } else {
-            params.questions = []
-            this.questions.forEach(function (item, index, arr) {
-              params.questions.push({
-                id: item.id,
-                answer: item.selected
-              })
-            })
-          }
-          this.submit(params)
-        }
-        this.result()
+      // 如果到最后一题，返回
+      if (this.pagination.next.text === '返回') {
+        this.back()
       }
       if (this.pagination.current >= this.questions.length - 1) {
         this.pagination.current = this.questions.length
-        this.pagination.next.text = '提交测试'
+        this.pagination.next.text = '返回'
       } else {
         this.pagination.current++
       }
-      this.selected = ''
     }
   }
 }

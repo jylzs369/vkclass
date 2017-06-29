@@ -1,0 +1,24 @@
+.pagination {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-size: 80%;
+    text-align: center;
+    line-height: 3;
+    border-top: 1px solid #ddd;
+    padding: 0 var(--padding-large-horizontal);
+}
+.pagination > a {
+    cursor: pointer;
+}
+.pagination > a.disabled {
+    cursor: not-allowed;
+    color: var(--disabled);
+}
+.pagination .prev {
+    border-right: 1px solid #ddd;
+}
+.pagination .next {
+    border-left: 1px solid #ddd;
+}

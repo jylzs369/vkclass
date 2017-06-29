@@ -8,6 +8,39 @@ import router from './router'
 Vue.config.productionTip = false
 Vue.prototype.$axios = Axios
 
+Vue.prototype.$toast = (obj) => {
+  const oo = {}
+  if (typeof obj === 'object') {
+    oo.msg = obj.msg || '操作成功'
+    oo.timer = obj.time || 2000
+    oo.type = obj.type
+  } else {
+    oo.msg = obj || '操作成功！'
+    oo.timer = 2000
+  }
+  let toast = document.getElementById('toast')
+  if (!toast) {
+    toast = document.createElement('div')
+    toast.setAttribute('id', 'toast')
+    toast.className = 'toast fade-in'
+    document.body.appendChild(toast)
+  } else {
+    toast.className = 'toast fade-in'
+  }
+  oo.type
+    ? toast.innerHTML = '<i class="' + oo.type + '"></i><span>' + oo.msg + '</span>'
+    : toast.innerHTML = '<span>' + oo.msg + '</span>'
+  setTimeout(() => {
+    toast.className = 'toast fade-out'
+  }, oo.timer)
+}
+Vue.prototype.$store = function () {
+  return {
+    user: {
+      employeeId: 1022023
+    }
+  }
+}
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
