@@ -3,10 +3,11 @@
     width: 100%;
     color: var(--white);
     font-size: 90%;
-    line-height: 1;
+    line-height: 1.75;
     padding: .5em 0;
     outline: 0;
     border: 0;
+    border-radius: var(--border-radius);
 }
 .btn.success {
     background: var(--success);

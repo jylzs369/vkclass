@@ -1,0 +1,32 @@
+.twotabs {
+  text-align: center;
+  padding: .5em 0;
+  background: var(--white);
+}
+.twotabs-btn {
+  display: inline-block;
+  padding: 0 2em;
+  font-size: var(--font-small);
+  line-height: 1.65;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 1.8em;
+  cursor: pointer;
+  margin-left: -1em;
+}
+.twotabs-btn.left-btn:not(.active) {
+  padding-right: 2em;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.twotabs-btn.right-btn:not(.active) {
+  padding-left: 2em;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.twotabs-btn.left-btn.active,
+.twotabs-btn.right-btn.active {
+  color: #fff;
+  padding: 0 1.8em;
+  background: var(--primary-color);
+}

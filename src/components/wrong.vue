@@ -1,17 +1,15 @@
 <template>
   <div>
       <header-bar :title="header.title" @back="back"></header-bar>
-      <section class="point-test">
-        <div>
+      <section class="test border-bottom">
+        <div class="title border-bottom">
             <p>{{ paragraph }}</p>
         </div>
         <ul class="list">
-          <li v-for="(item, index) in options">
-            <i v-if="question.correct === item" class="icon correct"></i>
-            <i v-else-if="question.answer === item" class="icon wrong">&times;</i>
-            <i v-else class="icon"></i>
+          <li v-for="(item, index) in options" class="border-top" :class="{'icon-correct': question.correct === item, 'icon-wrong': question.answer === item}">
             <input type="radio" :id="'question-'+ index" :value="item" disabled name="question">
-            <label :for="'question-' + index">{{ item }}</label>
+            <label :for="'question-' + index" class="flex"><span>{{ String.fromCharCode(startNumber + index) }}、</span><p>{{ item }}</p>
+            </label>
           </li>
         </ul>
       </section>
@@ -40,7 +38,8 @@ export default {
         total: 1,
         current: 1
       },
-      questions: []
+      questions: [],
+      startNumber: 65
     }
   },
   components: {
@@ -50,7 +49,7 @@ export default {
   computed: {
     paragraph () {
       if (this.questions.length > 0) {
-        return this.pagination.current + '.' + this.questions[this.pagination.current - 1].content
+        return this.pagination.current + '、' + this.questions[this.pagination.current - 1].content
       }
     },
     options () {
@@ -85,8 +84,9 @@ export default {
   },
   methods: {
     back () {
-      this.$router.push({
-        name: 'exam'
+      this.$router.replace({
+        name: 'result',
+        params: this.params
       })
     },
     prev () {

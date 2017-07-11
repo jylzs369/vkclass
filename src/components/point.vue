@@ -2,8 +2,9 @@
   <div>
       <header-bar :title="header.title" @back="back"></header-bar>
       <section>
-        <div>
-            <p>{{ paragraph }}</p>
+        <div class="points">
+          <h3>{{ title }}</h3>
+          <p>{{ paragraph }}</p>
         </div>
       </section>
       <pagination :current="pagination.current" :total="pagination.total" :prevBtn="pagination.prev" :nextBtn="pagination.next" @prev="prev" @next="next"></pagination>
@@ -17,7 +18,7 @@ export default {
   data () {
     return {
       header: {
-        title: '知识点'
+        title: '知识点学习'
       },
       pagination: {
         prev: {
@@ -31,6 +32,7 @@ export default {
         total: 1,
         current: 1
       },
+      title: '',
       points: []
     }
   },
@@ -41,7 +43,7 @@ export default {
   computed: {
     paragraph () {
       if (this.points.length > 0) {
-        return this.pagination.current + '.' + this.points[this.pagination.current - 1].content
+        return this.points[this.pagination.current - 1].content
       }
     }
   },
@@ -55,6 +57,7 @@ export default {
   },
   created () {
     this.params = this.$route.params
+    this.title = this.params.title
     // let courseId = this.params.id
     // this.$axios.get('/point/' + courseId).then(res => {
     this.$axios.get('/point', {params: {id: this.params.id}}).then(res => {
@@ -70,7 +73,7 @@ export default {
     },
     test () {
       this.params = Object.assign(this.params, {from: 'point'})
-      this.$router.push({
+      this.$router.replace({
         name: 'test',
         params: this.params
       })

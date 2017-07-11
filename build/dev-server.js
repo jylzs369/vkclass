@@ -26,10 +26,8 @@ var app = express()
 var compiler = webpack(webpackConfig)
 
 // 使用mock
-if (process.env.NODE_ENV = 'development') {
-  var mocks = require('../src/router/mock');
-  mocks(app);
-}
+var mocks = require('../src/router/mock');
+mocks(app);
 
 var devMiddleware = require('webpack-dev-middleware')(compiler, {
   publicPath: webpackConfig.output.publicPath,

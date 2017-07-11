@@ -3,12 +3,13 @@ header {
   align-items: center;
   justify-content: center;
   line-height: 2.4;
+  color: var(--white);
+  background: var(--primary-color);
   padding: 0 var(--padding-large-horizontal);
 }
 
 header h1 {
-  color: var(--primary-color);
-  font-size: var(--font-size-larger);
+  font-size: var(--font-large);
   text-align: center;
   flex: 5;
 }

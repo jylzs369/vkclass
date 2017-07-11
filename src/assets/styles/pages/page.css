@@ -1,61 +1,190 @@
-.summary {
-    padding: var(--padding-large-vertical);
+.summary h3 {
+    font-size: var(--font-larger);
+    line-height: 1.75;
+}
+.summary .motto {
+    font-size: var(--font-small);
+}
+.summary .detail {
+    margin: var(--padding-large-vertical) 0;
 }
 .summary .days,
-.summary .points,
+.summary .points {
+    line-height: 1.75;
+    font-size: var(--font-small);
+    color: var(--white);
+    padding: 0 var(--padding-base-horizontal);
+    background: var(--primary-color);
+    border-radius: var(--border-radius);
+}
+.summary .days {
+    flex: 1;
+    margin-right: .5em;
+}
+.summary .points {
+    flex: 2
+}
 .summary .ranking {
-    line-height: 3;
+    font-size: var(--font-smaller);
+    color: var(--gray);
+    margin-bottom: var(--padding-large-horizontal);
+}
+.sub-summary img {
+    display: block;
+}
+
+.box-list:first-child {
+    margin-top: -1px;
 }
 .box-list {
     align-items: flex-start;
+    margin-bottom: var(--padding-base-horizontal);
+    padding: var(--padding-large-horizontal);
 }
 .box-list .brief {
     padding-left: .5em;
 }
 .box-list .title {
-    margin-bottom: 1em;
+    margin-bottom: .5em;
 }
 .box-list p {
-    font-size: 90%;
+    font-size: var(--font-smallest);
+    color: var(--gray);
 }
-.point-test input,
-.point-test label {
-    vertical-align: middle;
+
+.points h3 {
+    font-size: var(--font-large);
+    margin-bottom: .5em;
 }
+.points p {
+    font-size: var(--font-small);
+    color: var(--gray);
+    text-indent: 2em;
+}
+.test {
+    padding-bottom: 0;
+}
+.test .title p {
+    line-height: 1.5;
+    color: var(--primary-color);
+    margin-bottom: .5em;
+}
+.test input {
+    position:absolute;
+    clip: rect(0, 0, 0, 0);
+}
+.test label {
+    align-items: flex-start;
+}
+.test label span {
+    flex: 0.1;
+}
+.test .list {
+    font-size: var(--font-small);
+    color: var(--gray);
+}
+.test .list li {
+    padding: var(--padding-base-vertical)  0;
+    padding-right: 1.5em;
+}
+.test .list li:first-child {
+    margin-top: -1px;
+}
+.start .score,
 .result .score {
     width: 50%;
     height: calc(100vw * 0.5 - var(--padding-large-horizontal));
     border-radius: 50%;
     background: #78909C;
     margin: 1em auto 0;
-    font-size: 90%;
+    font-size: var(--font-small);
 }
+.start .score.full,
 .result .score.full {
     background: #FFA726;
 }
+.start .score div,
 .result .score div {
     transform: translateY(70%);
 }
+.start .score span,
 .result .score span {
     color: var(--white);
 }
+.start .correct-wrong,
 .result .correct-wrong {
-    margin: 2em 0;
+    margin: 3em 0 2em;
 }
+.start .correct-wrong > div:first-child,
 .result .correct-wrong > div:first-child {
-    border-right: 1px solid var(--gray);
+    border-right: 1px solid #eee;
 }
-.result .correct-wrong h5 {
-    line-height: 2;
+.start .correct-wrong div,
+.result .correct-wrong div {
+    color: var(--gray);
 }
-.result .score span,
-.result .correct-wrong span {
-    margin-right: .2em;
+.start .score strong,
+.start .correct-wrong strong,
+.result .score strong,
+.result .correct-wrong strong {
+    font-weight: normal;
+    margin: 0 .1em;
+    line-height: inherit;
 }
+.start strong,
+.result .correct strong {
+    color: var(--success);
+}
+.result .wrong strong {
+    color: var(--danger);
+}
+.result .tips {
+    font-size: var(--font-large);
+    color: var(--gray);
+}
+.result .btns {
+    margin-top: 4em;
+}
+.start + footer p,
 .result + footer p {
-    font-size: 80%;
+    font-size: var(--font-smaller);
 }
+.start + footer button,
 .result + footer button {
     width: 90%;
     margin: .8em 0 1em;
+}
+.start .tips {
+    font-size: var(--font-smallest);
+    color: var(--danger);
+}
+.start .start-btn {
+    margin: 2em auto;
+}
+
+.result.point .correct-wrong {
+    font-size: var(--font-small);
+}
+.result.point .correct-wrong div {
+    height: 1.5em;
+    line-height: .3em;
+}
+.result.point .correct-wrong strong {
+    font-size: 300%;
+    line-height: inherit;
+}
+.result.exam .correct-wrong {
+    font-size: var(--font-smaller);
+}
+.result.exam .correct-wrong div {
+    height: 1.5em;
+    line-height: 1.4em;
+}
+.result.exam .correct-wrong strong {
+    font-size: var(--font-larger);
+}
+.result.exam .scoreline {
+    font-size: var(--font-smallest);
+    color: var(--gray);
+    margin-top: .5em;
 }

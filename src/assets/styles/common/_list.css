@@ -1,3 +1,14 @@
-.list-title {
+.list-item {
+  font-size: 90%;
+  color: #B0B0B2;
   margin-bottom: .5em;
+  line-height: 2.4;
+  margin: 0 var(--padding-large-horizontal);
+}
+.list-item .list-title {
+  color: var(--primary-text-color);
+}
+.list-item .subtitle {
+  font-size: 90%;
+  padding-right: 1em;
 }

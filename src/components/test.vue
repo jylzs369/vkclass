@@ -1,14 +1,14 @@
 <template>
   <div>
       <header-bar :title="header.title" @back="back"></header-bar>
-      <section class="point-test">
-        <div>
+      <section class="test border-bottom">
+        <div class="title border-bottom">
             <p>{{ paragraph }}</p>
         </div>
         <ul class="list">
-          <li v-for="(item, index) in options">
+          <li v-for="(item, index) in options" class="border-top" :class="selected === item ? 'icon-selected' : 'icon-unselect'">
             <input type="radio" :id="'question-'+ index" :value="item" v-model="selected" name="question">
-            <label :for="'question-' + index">{{ item }}</label>
+            <label :for="'question-' + index" class="flex"><span>{{ String.fromCharCode(startNumber + index) }}、</span><p>{{ item }}</p></label>
           </li>
         </ul>
       </section>
@@ -38,7 +38,8 @@ export default {
         current: 1
       },
       questions: [],
-      selected: ''
+      selected: '',
+      startNumber: 65
     }
   },
   components: {
@@ -48,7 +49,7 @@ export default {
   computed: {
     paragraph () {
       if (this.questions.length > 0) {
-        return this.pagination.current + '.' + this.questions[this.pagination.current - 1].content
+        return this.pagination.current + '、' + this.questions[this.pagination.current - 1].content
       }
     },
     options () {
@@ -87,11 +88,7 @@ export default {
   },
   methods: {
     back () {
-      delete this.params.from
-      this.$router.push({
-        name: this.from,
-        params: this.params
-      })
+      this.$router.go(-1)
     },
     submit (params) {
       this.$axios.post(this.apiUrl, {params: params}).catch(error => {
@@ -103,7 +100,7 @@ export default {
         this.params = Object.assign(this.params, {pass: this.pass})
       }
       this.params = Object.assign(this.params, {questions: this.questions})
-      this.$router.push({
+      this.$router.replace({
         name: 'result',
         params: this.params
       })

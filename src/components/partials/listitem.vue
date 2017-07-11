@@ -1,6 +1,6 @@
 <template>
-  <div class="list-item list-title flex">
-    <span class="tl">{{ title }}</span>
+  <div class="list-item flex">
+    <span class="list-title tl">{{ title }}</span>
     <span class="subtitle tr">{{ subTitle }}</span>
   </div>
 </template>
@@ -18,9 +18,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-  .list-item .subtitle {
-    padding-right: 1em;
-  }
-</style>

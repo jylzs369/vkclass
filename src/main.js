@@ -4,6 +4,7 @@ import Vue from 'vue'
 import Axios from 'axios'
 import App from './App'
 import router from './router'
+import store from './store'
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = Axios
@@ -34,17 +35,12 @@ Vue.prototype.$toast = (obj) => {
     toast.className = 'toast fade-out'
   }, oo.timer)
 }
-Vue.prototype.$store = function () {
-  return {
-    user: {
-      employeeId: 1022023
-    }
-  }
-}
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 })

@@ -21,7 +21,7 @@ module.exports = function (app) {
           'title': '@csentence(6, 12)',
           'banner': Random.image('320x180', '#894FC4', '#FFF', 'png', '!'),
           'points|1-100': 1,
-          'deadline': '@date("yyyy-MM-dd")',
+          'deadline': '@date("yyyy年MM月dd日")',
           'state|0-1': 1
         }
       ]
@@ -63,7 +63,7 @@ module.exports = function (app) {
           'title': '@csentence(6, 12)',
           'banner': Random.image('320x180', '#894FC4', '#FFF', 'png', '!'),
           'questions|5-100': 1,
-          'deadline': '@date("yyyy-MM-dd")',
+          'deadline': '@date("yyyy年MM月dd日")',
           'state|0-1': 1,
           'pass|0-1': 1
         }

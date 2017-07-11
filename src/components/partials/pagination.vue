@@ -1,8 +1,8 @@
 <template>
   <div class="pagination flex">
-    <a @click="prev" class="prev arrow-left" :class="prevBtn.disabled ? 'disabled' : '' ">{{ prevBtn.text || '&nbsp;' }}</a>
+    <a @click="prev" class="prev arrow-left solid" :class="prevBtn.disabled ? 'disabled' : '' ">{{ prevBtn.text || '&nbsp;' }}</a>
     <span class="pagea">{{ current }} / {{ total }}</span>
-    <a @click="next" class="next arrow-right" :class="{ disabled: nextBtn.disabled }">{{ nextBtn.text || '&nbsp;' }}</a>
+    <a @click="next" class="next" :class="{ disabled: nextBtn.disabled, 'arrow-right': rightArrowShow, solid: rightArrowShow }">{{ nextBtn.text || '&nbsp;' }}</a>
   </div>
 </template>
 
@@ -34,6 +34,11 @@ export default {
     total: {
       type: Number,
       default: 1
+    }
+  },
+  computed: {
+    rightArrowShow () {
+      return this.current < this.total
     }
   },
   methods: {

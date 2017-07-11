@@ -1,29 +1,37 @@
 :root {
     --fullsize: 100%;
-
+    --images: '/src/assets/images/';
     /* color */
     --primary-color: #009949;
     --primary-text-color: #2E2E33;
     --secondary-text-color: #979799;
     --bg-color: #F0F2F1;
     --border-color: #E3E6E4;
-    --success: #79D06E;
+    --success: var(--primary-color);
     --warning: #FFA726;
-    --danger: #EF938C;
+    --danger: #E55346;
     --info: #4C8BAB;
     --white: #fff;
+    --light-gray: #D2D2D2;
     --gray: #ccc;
     --disabled: var(--gray);
+    --border-radius: .3em;
 
     /* font size */
     --font-size-base: 14px;
     --font-size-small: 12px;
     --font-size-large: 16px;
     --font-size-larger: 18px;
+    --font-largest: 200%;
+    --font-larger: 150%;
+    --font-large: 120%;
+    --font-small: 90%;
+    --font-smaller: 80%;
+    --font-smallest: 75%;
 
     /* padding */
-    --padding-base-vertical: calc(0.3 * var(--font-size-larger));
-    --padding-base-horizontal: calc(0.5 * var(--font-size-larger));
+    --padding-base-vertical: calc(0.5 * var(--font-size-larger));
+    --padding-base-horizontal: calc(0.6 * var(--font-size-larger));
     --padding-small-vertical: calc(0.25 * var(--font-size-base));
     --padding-small-horizontal: calc(0.5 * var(--font-size-base));
     --padding-large-vertical: calc(0.5 * 24px);

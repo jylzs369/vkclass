@@ -1,29 +1,28 @@
 <template>
   <div>
       <header-bar :title="header.title" @back="back"></header-bar>
+      <two-tabs class="border-bottom" :active="twotabs.active" :leftBtn="twotabs.leftBtn" :rightBtn="twotabs.rightBtn" @leftTabClick="leftTabClick" @rightTabClick="rightTabClick"></two-tabs>
       <section v-if="processing.length === 0 && finished.length === 0">暂无数据</section>
-      <section v-if="processing.length > 0">
-        <div v-for="item in processing">
-          <router-link tag="div" :to="{ name: 'start', params: { id: item.id, title: item.title, state: item.state, from: 'exam'} }" class="box-list flex">
+      <section v-if="processing.length > 0" class="exam bg-gray no-padding" v-show="twotabs.active === 'left'">
+        <div v-for="item in processing" class="item bg-white">
+          <router-link tag="div" :to="{ name: 'start', params: { id: item.id, title: item.title, state: item.state, from: 'exam'} }" class="box-list flex border-vertical">
             <div class="banner"><img :src="item.banner" alt=""></div>
             <div class="brief">
               <h3 class="title">{{ item.title }}</h3>
               <p>共计：{{ item.questions }}知识点</p>
-              <p>截止日期：{{ item.deadline }}</p>
+              <p>截止：{{ item.deadline }}</p>
             </div>
           </router-link>
         </div>
       </section>
-      <section v-if="finished.length > 0">
-        <div>已完成</div>
-        <div v-for="item in finished">
-          <router-link tag="div" :to="{ name: 'result', params: { id: item.id, title: item.title, state: item.state, from: 'exam'} }" class="box-list flex">
+      <section v-if="finished.length > 0" class="exam bg-gray no-padding" v-show="twotabs.active === 'right'">
+        <div v-for="item in finished" class="item bg-white">
+          <router-link tag="div" :to="{ name: 'result', params: { id: item.id, title: item.title, state: item.state, from: 'exam'} }" class="box-list flex border-vertical">
             <div class="banner"><img :src="item.banner" alt=""></div>
             <div class="brief">
-              <h3 class="title">{{ item.title }}</h3>
+              <h3 class="title">{{ item.title }}<i class="icon" :class="item.pass ? 'pass' : 'fail'">{{ item.pass ? '已通过' : '未通过' }}</i></h3>
               <p>共计：{{ item.questions }}知识点</p>
-              <p>截止日期：{{ item.deadline }}</p>
-              <p>{{ item.pass ? '已通过' : '未通过' }}</p>
+              <p>截止：{{ item.deadline }}</p>
             </div>
           </router-link>
         </div>
@@ -33,18 +32,29 @@
 
 <script>
 import headerBar from './partials/header'
+import twoTabs from './partials/twoTabs'
 export default {
   data () {
     return {
       header: {
         title: '考试'
       },
+      twotabs: {
+        active: 'left',
+        leftBtn: {
+          text: '未完成'
+        },
+        rightBtn: {
+          text: '已完成'
+        }
+      },
       processing: [],
       finished: []
     }
   },
   components: {
-    headerBar
+    headerBar,
+    twoTabs
   },
   created () {
     this.$axios.get('/exam').then(res => {
@@ -64,6 +74,12 @@ export default {
       this.$router.push({
         name: 'home'
       })
+    },
+    leftTabClick () {
+      this.twotabs.active = 'left'
+    },
+    rightTabClick () {
+      this.twotabs.active = 'right'
     }
   }
 }

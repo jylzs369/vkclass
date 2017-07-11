@@ -1,48 +1,38 @@
 <template>
   <div>
       <header-bar :title="header.title" @back="back"></header-bar>
-      <section class="result">
+      <section class="result fullscreen" :class="{ point: point, exam: exam }">
+        <h3 class="title">{{ title }}</h3>
         <div v-if="exam" class="score tc" :class="{ full: result.full || result.pass }">
           <div>
             <p><span class="font-large">{{ result.score }}</span>分</p>
-            <p v-if="result.full || result.pass">恭喜你完成考试</p>
-            <p v-else>还要多多学习</p>
           </div>
         </div>
+        <p v-if="exam" class="scoreline tc">合格标准：{{ scoreline }}分</p>
         <div class="correct-wrong flex">
-          <div class="tc">
-            <h5>正确</h5>
-            <p><span class="font-large">{{ result.correct }}</span>题</p>
-          </div>
-          <div class="tc">
-            <h5>错误</h5>
-            <p><span class="font-large">{{ result.wrong }}</span>题</p>
-          </div>
+          <div class="correct tc">正确<strong class="font-large">{{ result.correct }}</strong><span class="font-smallest">题</span></div>
+          <div class="wrong tc">错误<strong class="font-large">{{ result.wrong }}</strong><span class="font-smallest">题</span></div>
         </div>
-        <p v-if="result.full || result.pass" class="tc">学习很认真，继续保持哦！</p>
-        <p v-else class="tc">偷懒了吧？没认真学习吧~</p>
+        <p v-if="result.full || result.pass" class="tips tc">恭喜您完成测试！</p>
+        <div class="btns">
+          <router-link v-if="result.full || result.pass" tag="button" class="btn success" :to="{ name: 'home'}">返回首页</router-link>
+          <router-link v-else-if="point" tag="button" class="btn success" :to="{ name: 'point', params: params }" replace>重新学习</router-link>
+          <router-link v-else-if="exam && state" tag="button" class="btn success" :to="{ name: 'test', params: params}" replace>重新考试</router-link>
+          <router-link v-else tag="button" class="btn success" :to="{ name: 'wrong', params: params}">错题查看</router-link>
+        </div>
       </section>
-      <footer-bar class="tc">
-        <div slot="footer">
-          <p v-if="exam">达到{{ scoreline }}分及格</p>
-          <router-link v-if="result.full || result.pass" tag="button" class="btn warning" :to="{ name: 'home'}">返回首页</router-link>
-          <router-link v-else-if="point" tag="button" class="btn warning" :to="{ name: 'point', params: params }">重新学习</router-link>
-          <router-link v-else-if="exam && state" tag="button" class="btn warning" :to="{ name: 'exam', params: this.params}">重新考试</router-link>
-          <router-link v-else tag="button" class="btn warning" :to="{ name: 'wrong', params: params}">错题查看</router-link>
-        </div>
-      </footer-bar>
   </div>
 </template>
 
 <script>
 import headerBar from './partials/header'
-import footerBar from './partials/footer'
 export default {
   data () {
     return {
       header: {
         title: ''
       },
+      title: '',
       point: false,
       exam: false,
       questions: [],
@@ -59,33 +49,51 @@ export default {
     }
   },
   components: {
-    headerBar,
-    footerBar
+    headerBar
   },
   created () {
-    this.params = this.$route.params
-    console.log(this.params)
-    this.header.title = this.params.title
-    this.state = this.params.state
-    switch (this.params.from) {
-      case 'point':
-        this.point = true
-        this.questions = this.params.questions
-        this.getPointResult(this)
-        break
-      case 'exam':
-        this.exam = true
-        this.getExamResult()
-        break
-      default:
-        break
+    this.header.title = '测试结果'
+  },
+  beforeRouteEnter  (to, from, next) {
+    if (from.name === 'wrong') {
+      const { params } = from
+      next(vm => {
+        vm.params = params
+        vm.state = vm.params.state
+        vm.title = vm.params.title
+        vm.getExamResult()
+        vm.wrong = true
+      })
+    } else {
+      next(vm => {
+        vm.params = vm.$route.params
+        vm.state = vm.params.state
+        vm.title = vm.params.title
+        switch (vm.params.from) {
+          case 'point':
+            vm.point = true
+            vm.questions = vm.params.questions
+            vm.getPointResult(vm)
+            break
+          case 'exam':
+            vm.exam = true
+            vm.getExamResult()
+            break
+          default:
+            break
+        }
+      })
     }
   },
   methods: {
     back () {
-      this.$router.push({
-        name: 'home'
-      })
+      if (this.wrong) {
+        this.$router.push({
+          name: 'exam'
+        })
+      } else {
+        this.$router.go(-1)
+      }
     },
     getPointResult (context) {
       var _this = context
