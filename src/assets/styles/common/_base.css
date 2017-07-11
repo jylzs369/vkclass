@@ -91,6 +91,14 @@ section,
   flex: 1
 }
 
+/* color */
+.color-success {
+  color: var(--success);
+}
+.color-danger {
+  color: var(--danger);
+}
+
 /* border */
 .border {
   border: 1px solid var(--border-color);
@@ -159,7 +167,6 @@ section,
   font-size: var(--font-smallest);
 }
 
-
 .toast {
   position: fixed;
   z-index: 9999;
@@ -193,6 +200,7 @@ section,
 .clear {
   clear: both;
 }
+
 @keyframes fadeIn {
   from {
     opacity: 0;

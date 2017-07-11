@@ -3,15 +3,14 @@
       <header-bar :title="header.title" @back="back"></header-bar>
       <section class="start fullscreen">
         <h3 class="title">{{ title }}</h3>
-        <div class="score tc full">
-          <div>
-            <p><span class="font-large">{{ data.scoreline }}</span>分</p>
-          </div>
-          <p class="clear">合格标准</p>
+        <div class="score tc">
+          <score :pass="score.pass" :progress="score.progress"></score>
+          <div><span class="font-large">{{ data.scoreline }}</span>分</div>
+          <p class="font-smaller">合格标准</p>
         </div>
         <div class="correct-wrong flex font-smaller">
-          <div class="tc">考试次数<strong class="font-larger">{{ data.chance }}</strong><span class="font-smallest">{{ data.totalChance }}题次</span></div>
-          <div class="tc">考试时长<strong class="font-larger">{{ data.timelimit }}</strong><span class="font-smallest">题</span></div>
+          <div class="tc">考试次数<strong class="font-larger">{{ data.chance }}</strong><span class="font-smallest">/ {{ data.totalChance }}次</span></div>
+          <div class="tc">考试时长<strong class="font-larger">{{ data.timelimit }}</strong><span class="font-smallest">分钟</span></div>
         </div>
         <p class="tips tc">超时自动提交考卷，请保持良好的网络环境</p>
         <router-link tag="button" :to="{ name: 'test', params: this.params }" class="btn success start-btn" replace>
@@ -23,12 +22,15 @@
 
 <script>
 import headerBar from './partials/header'
-import footerBar from './partials/footer'
+import score from './partials/score'
 export default {
   data () {
     return {
       header: {
         title: '考试说明'
+      },
+      score: {
+        pass: true
       },
       title: '',
       data: {}
@@ -36,7 +38,7 @@ export default {
   },
   components: {
     headerBar,
-    footerBar
+    score
   },
   created () {
     this.params = this.$route.params
@@ -44,6 +46,8 @@ export default {
     this.$axios.get('/exam/start', {params: {id: this.params.id, employeeId: 10000}}).then(res => {
       let result = res.data
       this.data = result
+      this.params.timelimit = result.timelimit
+      this.score.progress = this.data.scoreline
     })
   },
   methods: {

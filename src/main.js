@@ -12,11 +12,11 @@ Vue.prototype.$axios = Axios
 Vue.prototype.$toast = (obj) => {
   const oo = {}
   if (typeof obj === 'object') {
-    oo.msg = obj.msg || '操作成功'
+    oo.msg = obj.msg || ''
     oo.timer = obj.time || 2000
     oo.type = obj.type
   } else {
-    oo.msg = obj || '操作成功！'
+    oo.msg = obj || ''
     oo.timer = 2000
   }
   let toast = document.getElementById('toast')

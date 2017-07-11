@@ -92,24 +92,29 @@
 }
 .start .score,
 .result .score {
+    position: relative;
     width: 50%;
     height: calc(100vw * 0.5 - var(--padding-large-horizontal));
     border-radius: 50%;
-    background: #78909C;
     margin: 1em auto 0;
+    padding: 2px;
     font-size: var(--font-small);
-}
-.start .score.full,
-.result .score.full {
-    background: #FFA726;
+    overflow: visible;
 }
 .start .score div,
 .result .score div {
-    transform: translateY(70%);
+   height: calc(100vw * 0.5 - var(--padding-large-horizontal));
+    line-height: calc(100vw * 0.5 - var(--padding-large-horizontal));
+    transform: translateY(-2%);
 }
 .start .score span,
 .result .score span {
-    color: var(--white);
+    font-size: 400%;
+    color: var(--primary-text-color);
+}
+.start .score > p,
+.result .score > p {
+    color: var(--gray);
 }
 .start .correct-wrong,
 .result .correct-wrong {
@@ -187,4 +192,8 @@
     font-size: var(--font-smallest);
     color: var(--gray);
     margin-top: .5em;
+}
+
+.count-down {
+    line-height: 2.2;
 }

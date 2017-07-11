@@ -3,10 +3,9 @@
       <header-bar :title="header.title" @back="back"></header-bar>
       <section class="result fullscreen" :class="{ point: point, exam: exam }">
         <h3 class="title">{{ title }}</h3>
-        <div v-if="exam" class="score tc" :class="{ full: result.full || result.pass }">
-          <div>
-            <p><span class="font-large">{{ result.score }}</span>分</p>
-          </div>
+        <div class="score tc">
+          <score :pass="score.pass" :progress="score.progress"></score>
+          <div><span class="font-large">{{ result.score }}</span>分</div>
         </div>
         <p v-if="exam" class="scoreline tc">合格标准：{{ scoreline }}分</p>
         <div class="correct-wrong flex">
@@ -26,11 +25,15 @@
 
 <script>
 import headerBar from './partials/header'
+import score from './partials/score'
 export default {
   data () {
     return {
       header: {
         title: ''
+      },
+      score: {
+        pass: false
       },
       title: '',
       point: false,
@@ -49,7 +52,8 @@ export default {
     }
   },
   components: {
-    headerBar
+    headerBar,
+    score
   },
   created () {
     this.header.title = '测试结果'
@@ -68,7 +72,6 @@ export default {
       next(vm => {
         vm.params = vm.$route.params
         vm.state = vm.params.state
-        vm.title = vm.params.title
         switch (vm.params.from) {
           case 'point':
             vm.point = true
@@ -109,16 +112,19 @@ export default {
     },
     getExamResult () {
       let employeeId = 1022023
-      // let courseId = this.params.id
-      // this.$axios.get('/exam/finished/' + courseId).then(res => {
       this.$axios.get('/exam/finished', {params: {id: this.params.id, employeeId: employeeId}}).then(res => {
         let result = res.data
         this.scoreline = result.scoreline
         this.result.correct = result.correct
         this.result.wrong = result.wrong
         this.result.score = result.score
-        if (this.result.score >= this.scoreline) this.result.pass = true
-        if (this.result.score === 100) this.result.full = true
+        this.score.progress = this.result.score
+        console.log(this.score.progress)
+        if (this.result.score >= this.scoreline) {
+          if (this.result.score === 100) this.result.full = true
+          this.result.pass = true
+          this.score.pass = this.result.pass
+        }
       })
     }
   }

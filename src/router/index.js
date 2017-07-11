@@ -31,7 +31,7 @@ const checkAuthority = (to, from, next) => {
   if (name === 'home' || name === 'course' || name === 'exam' || name === 'library') {
     !user.employeeId && to.name !== 'error' ? next({ path: '/error' }) : next()
   } else {
-    from.name.length <= 0 && to.name !== 'error' ? next({ path: '/error' }) : next()
+    from.name && from.name.length <= 0 && to.name !== 'error' ? next({ path: '/error' }) : next()
   }
 }
 

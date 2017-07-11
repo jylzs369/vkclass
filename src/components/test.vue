@@ -1,6 +1,7 @@
 <template>
   <div>
       <header-bar :title="header.title" @back="back"></header-bar>
+      <countdown v-if="from === 'exam'" :timelimit="timelimit"></countdown>
       <section class="test border-bottom">
         <div class="title border-bottom">
             <p>{{ paragraph }}</p>
@@ -18,6 +19,7 @@
 
 <script>
 import headerBar from './partials/header'
+import countdown from './partials/countdown'
 import pagination from './partials/pagination'
 export default {
   data () {
@@ -39,11 +41,13 @@ export default {
       },
       questions: [],
       selected: '',
+      timelimit: 0,
       startNumber: 65
     }
   },
   components: {
     headerBar,
+    countdown,
     pagination
   },
   computed: {
@@ -72,6 +76,7 @@ export default {
   created () {
     this.params = this.$route.params
     this.from = this.params.from
+    this.timelimit = this.params.timelimit
     this.apiUrl = '/' + this.from + '/test'
     if (this.from === 'point') {
       this.header.title = '知识点验收'
@@ -79,10 +84,9 @@ export default {
     if (this.from === 'exam') {
       this.header.title = '每月必考'
     }
-    // let courseId = this.$route.params.id
-    // this.$axios.get(this.apiUrl + '/' + courseId).then(res => {
     this.$axios.get(this.apiUrl, {params: {id: this.params.id}}).then(res => {
-      this.questions = res.data.questions
+      let result = res.data
+      this.questions = result.questions
       this.pagination.total = this.questions.length
     })
   },
@@ -105,6 +109,31 @@ export default {
         params: this.params
       })
     },
+    getResults (context) {
+      if (context.params.state) {
+        let params = {
+          id: context.params.id
+        }
+        if (context.from === 'point') {
+          params.corrects = []
+          context.questions.forEach(function (item, index, arr) {
+            if (item.selected === item.correct) {
+              params.corrects.push(item.id)
+            }
+          })
+        } else {
+          params.questions = []
+          context.questions.forEach(function (item, index, arr) {
+            params.questions.push({
+              id: item.id,
+              answer: item.selected
+            })
+          })
+        }
+        context.submit(params)
+      }
+      context.result()
+    },
     prev () {
       if (this.pagination.current < 3) {
         this.pagination.current = 1
@@ -122,29 +151,7 @@ export default {
       }
       // 如果到最后一题，提交测试
       if (this.pagination.next.text === '提交测试' || this.pagination.next.text === '交卷') {
-        if (this.params.state) {
-          let params = {
-            id: this.params.id
-          }
-          if (this.from === 'point') {
-            params.corrects = []
-            this.questions.forEach(function (item, index, arr) {
-              if (item.selected === item.correct) {
-                params.corrects.push(item.id)
-              }
-            })
-          } else {
-            params.questions = []
-            this.questions.forEach(function (item, index, arr) {
-              params.questions.push({
-                id: item.id,
-                answer: item.selected
-              })
-            })
-          }
-          this.submit(params)
-        }
-        this.result()
+        this.getResults(this)
       }
       if (this.pagination.current >= this.questions.length - 1) {
         this.pagination.current = this.questions.length
